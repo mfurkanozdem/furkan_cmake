@@ -43,6 +43,7 @@
 RTC_HandleTypeDef hrtc;
 
 UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart1_tx;
@@ -61,12 +62,19 @@ static void MX_RTC_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_PCD_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+    
+#ifdef USE_CPP_MAIN
+void board_init(void)
+{
+  
+#else
 
 /* USER CODE END 0 */
 
@@ -78,7 +86,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+#endif  
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -104,20 +112,32 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_PCD_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  
+  #ifndef USE_CPP_MAIN
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    
+    /*
+    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+    HAL_Delay(500);
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
-    HAL_Delay(1000);
+    HAL_Delay(500);
+    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+    HAL_Delay(500);
+    */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
+  #endif
+
   /* USER CODE END 3 */
 }
 
@@ -161,8 +181,10 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
-                              |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_RTC;
+                              |RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USART3
+                              |RCC_PERIPHCLK_RTC;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
@@ -239,6 +261,41 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
 
 }
 
@@ -343,10 +400,10 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
@@ -416,6 +473,7 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
