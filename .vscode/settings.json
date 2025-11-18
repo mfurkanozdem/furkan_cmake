@@ -1,8 +1,79 @@
 { 
   "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
   "C_Cpp.default.compilerPath": "/opt/st/stm32cubeclt_1.19.0/GNU-tools-for-STM32/bin/arm-none-eabi-g++",
-  "C_Cpp.default.intelliSenseMode": "gcc-arm",
+  "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
   "C_Cpp.default.cppStandard": "c++20",
   "C_Cpp.default.cStandard": "c11",
-  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.default.includePath": [
+
+    "${workspaceFolder}/**",
+
+    "${workspaceFolder}/Core/App/interface",
+
+    "${workspaceFolder}/Core/App/protocol",
+
+    "${workspaceFolder}/Core/App/utils",
+
+    "${workspaceFolder}/Core/App/hal/stm32",
+
+    "${workspaceFolder}/Core/Inc",
+
+    "${workspaceFolder}/Drivers/STM32G4xx_HAL_Driver/Inc",
+
+    "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32G4xx/Include",
+
+    "${workspaceFolder}/Drivers/CMSIS/Include"
+
+  ], 
+  "files.associations": {
+    "*.hpp": "cpp",
+    "cmath": "cpp",
+    "limits": "cpp",
+    "cstdint": "cpp",
+    "type_traits": "cpp",
+    "array": "cpp",
+    "atomic": "cpp",
+    "bit": "cpp",
+    "cctype": "cpp",
+    "clocale": "cpp",
+    "compare": "cpp",
+    "concepts": "cpp",
+    "cstdarg": "cpp",
+    "cstddef": "cpp",
+    "cstdio": "cpp",
+    "cstdlib": "cpp",
+    "cwchar": "cpp",
+    "cwctype": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "exception": "cpp",
+    "algorithm": "cpp",
+    "functional": "cpp",
+    "iterator": "cpp",
+    "memory": "cpp",
+    "memory_resource": "cpp",
+    "numeric": "cpp",
+    "optional": "cpp",
+    "random": "cpp",
+    "string_view": "cpp",
+    "system_error": "cpp",
+    "tuple": "cpp",
+    "utility": "cpp",
+    "initializer_list": "cpp",
+    "iosfwd": "cpp",
+    "iostream": "cpp",
+    "istream": "cpp",
+    "new": "cpp",
+    "numbers": "cpp",
+    "ostream": "cpp",
+    "ranges": "cpp",
+    "stdexcept": "cpp",
+    "streambuf": "cpp",
+    "cinttypes": "cpp",
+    "typeinfo": "cpp",
+    "span": "cpp"
+  }
 }

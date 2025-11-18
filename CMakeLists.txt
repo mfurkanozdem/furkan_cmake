@@ -24,6 +24,10 @@ set(CMAKE_PROJECT_NAME furkan_cmake)
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+set(STM TRUE)
+#set(NXP TRUE)
+#set(BSP 3)
+
 
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
@@ -43,15 +47,48 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
+set(DRIVER_SOURCES)
+
+if (STM)
+    set(DRIVER_SOURCES
+        Core/App/hal/stm32/ArchUart.cpp
+    )
+#list(APPEND DRIVER_SOURCES
+#Core/App/utils/RingBuffer.hpp
+#Core/App/interface/UartConfig.hpp
+#Core/App/interface/IUart.hpp
+#Core/App/interface/IComm.hpp
+#Core/App/protocol/Uart.hpp
+#Core/App/hal/stm32/ArchUart.hpp
+#)
+elseif (NXP)
+    set(DRIVER_SOURCES
+        Core/App/hal/nxp/ArchUart.cpp
+    )
+#list(APPEND DRIVER_SOURCES
+#Core/App/utils/RingBuffer.hpp
+#Core/App/interface/UartConfig.hpp
+#Core/App/interface/IUart.hpp
+#Core/App/interface/IComm.hpp
+#Core/App/protocol/Uart.hpp
+#Core/App/hal/nxp/ArchUart.hpp
+#)
+endif()
+
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/App/main.cpp
+    ${DRIVER_SOURCES}
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
+    Core/App/interface
+    Core/App/protocol
+    Core/App/utils
+    Core/App/hal/stm32
 )
 
 # Add project symbols (macros)
